@@ -288,7 +288,6 @@ export default class TextAreaComponent extends TextFieldComponent {
     super.setValueAt(index, value, flags);
 
     if (this.editorsReady[index]) {
-      value = this.sanitize(value, this.shouldSanitizeValue);
       const setEditorsValue = (flags) => (editor) => {
         this.autoModified = true;
         if (!flags.skipWysiwyg) {
@@ -336,7 +335,7 @@ export default class TextAreaComponent extends TextFieldComponent {
     index = index || 0;
     if (this.options.readOnly || this.disabled) {
       if (this.refs.input && this.refs.input[index]) {
-        this.setContent(this.refs.input[index], this.interpolate(value), true);
+        this.setContent(this.refs.input[index], this.interpolate(value), this.shouldSanitizeValue);
       }
     }
   }
