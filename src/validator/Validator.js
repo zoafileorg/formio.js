@@ -946,12 +946,64 @@ class ValidationChecker {
       ? component.validationValue
       : [component.validationValue];
 
+    const addonsValidations = [];
+
+    if (component?.addons?.length) {
+      values.forEach((value) => {
+        component.addons.forEach((addon) => {
+          if (!addon.checkValidity(value)) {
+            addonsValidations.push(...(addon.errors || []));
+          }
+        });
+      });
+    }
+
     // If this component has the new validation system enabled, use it instead.
     const validations = _.get(component, 'component.validations');
-    if (validations && Array.isArray(validations)) {
-      const resultsOrPromises = this.checkValidations(component, validations, data, row, values, async);
+    if (validations && Array.isArray(validations) && validations.length) {
+      let resultsOrPromises;
 
-      // Define how results should be formatted
+      if (component.calculateCondition) {
+        includeWarnings = true;
+        const groupedValidation = _.chain(validations)
+          .filter('active')
+          .groupBy((validation) => validation.group || null)
+          .value();
+
+        const commonValidations = groupedValidation.null || [];
+        delete groupedValidation.null;
+        resultsOrPromises = [];
+
+        commonValidations.forEach(({ condition, message, severity }) => {
+          if (!component.calculateCondition(condition)) {
+            resultsOrPromises.push({
+              level: severity || 'error',
+              message: component.t(message),
+              componentInstance: component,
+            });
+          }
+        });
+
+        _.forEach(groupedValidation, (validationGroup) => {
+          _.forEach(validationGroup, ({ condition, message, severity }) => {
+            if (!component.calculateCondition(condition)) {
+              resultsOrPromises.push({
+                level: severity || 'error',
+                message: component.t(message),
+                componentInstance: component,
+              });
+
+              return false;
+            }
+          });
+        });
+      }
+      else {
+        resultsOrPromises = this.checkValidations(component, validations, data, row, values, async);
+      }
+
+      resultsOrPromises.push(...addonsValidations);
+
       const formatResults = results => {
         return includeWarnings ? results : results.filter(result => result.level === 'error');
       };
@@ -1000,6 +1052,8 @@ class ValidationChecker {
     // Run the "multiple" pseudo-validator
     component.component.validate.multiple = component.component.multiple;
     resultsOrPromises.push(this.validate(component, 'multiple', component.validationValue, data, 0, data, async, conditionallyVisible));
+
+    resultsOrPromises.push(...addonsValidations);
 
     // Define how results should be formatted
     const formatResults = results => {
