@@ -52,7 +52,6 @@ import * as FormioUtils from './utils/utils';
 import htmlRenderMode from '../test/forms/htmlRenderMode';
 import optionalSanitize from '../test/forms/optionalSanitize';
 import truncateMultipleSpaces from '../test/forms/truncateMultipleSpaces';
-import htmlRenderMode from '../test/forms/htmlRenderMode';
 import calculatedValue from '../test/forms/calculatedValue';
 import conditionalDataGridWithTableAndRadio from '../test/forms/conditionalDataGridWithTableAndRadio';
 
