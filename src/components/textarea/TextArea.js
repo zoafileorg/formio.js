@@ -12,7 +12,7 @@ export default class TextAreaComponent extends TextFieldComponent {
       key: 'textArea',
       rows: 3,
       wysiwyg: false,
-      editor: '',
+      editor: 'quill',
       fixedSize: true,
       inputFormat: 'html',
       validate: {
@@ -122,10 +122,10 @@ export default class TextAreaComponent extends TextFieldComponent {
     }
 
     if (this.component.wysiwyg && !this.component.editor) {
-      this.component.editor = 'ckeditor';
+      this.component.editor = 'quill';
     }
 
-    let settings = _.isEmpty(this.component.wysiwyg) ?
+    const settings = _.isEmpty(this.component.wysiwyg) ?
       this.wysiwygDefault[this.component.editor] || this.wysiwygDefault.default
       : this.component.wysiwyg;
 
@@ -134,26 +134,8 @@ export default class TextAreaComponent extends TextFieldComponent {
       // Attempt to add a wysiwyg editor. In order to add one, it must be included on the global scope.
       switch (this.component.editor) {
         case 'ace':
-          if (!settings) {
-            settings = {};
-          }
-          settings.mode = this.component.as ? `ace/mode/${this.component.as}` : 'ace/mode/javascript';
-          this.addAce(element, settings, (newValue) => this.updateEditorValue(index, newValue)).then((ace) => {
-            this.editors[index] = ace;
-            let dataValue = this.dataValue;
-            dataValue = (this.component.multiple && Array.isArray(dataValue)) ? dataValue[index] : dataValue;
-            ace.setValue(this.setConvertedValue(dataValue, index));
-            editorReady(ace);
-            return ace;
-          }).catch(err => console.warn(err));
-          break;
+          throw new Error('unsupported editor');
         case 'quill':
-          // Normalize the configurations for quill.
-          if (settings.hasOwnProperty('toolbarGroups') || settings.hasOwnProperty('toolbar')) {
-            console.warn('The WYSIWYG settings are configured for CKEditor. For this renderer, you will need to use configurations for the Quill Editor. See https://quilljs.com/docs/configuration for more information.');
-            settings = this.wysiwygDefault.quill;
-          }
-
           // Add the quill editor.
           this.addQuill(
             element,
@@ -181,38 +163,7 @@ export default class TextAreaComponent extends TextFieldComponent {
           }).catch(err => console.warn(err));
           break;
         case 'ckeditor':
-          settings = settings || {};
-          settings.rows = this.component.rows;
-          this.addCKE(element, settings, (newValue) => this.updateEditorValue(index, newValue))
-            .then((editor) => {
-              this.editors[index] = editor;
-              let dataValue = this.dataValue;
-              dataValue = (this.component.multiple && Array.isArray(dataValue)) ? dataValue[index] : dataValue;
-              const value = this.setConvertedValue(dataValue, index);
-              const isReadOnly = this.options.readOnly || this.disabled;
-              // Use ckeditor 4 in IE browser
-              if (getBrowserInfo().ie) {
-                editor.on('instanceReady', () => {
-                  editor.setReadOnly(isReadOnly);
-                  editor.setData(value);
-                });
-              }
-              else {
-                const numRows = parseInt(this.component.rows, 10);
-
-                if (_.isFinite(numRows) && _.has(editor, 'ui.view.editable.editableElement')) {
-                  // Default height is 21px with 10px margin + a 14px top margin.
-                  const editorHeight = (numRows * 31) + 14;
-                  editor.ui.view.editable.editableElement.style.height = `${(editorHeight)}px`;
-                }
-                editor.isReadOnly = isReadOnly;
-                editor.data.set(value);
-              }
-
-              editorReady(editor);
-              return editor;
-            });
-          break;
+          throw new Error('unsupported editor');
         default:
           super.attachElement(element, index);
           break;
@@ -293,8 +244,7 @@ export default class TextAreaComponent extends TextFieldComponent {
         if (!flags.skipWysiwyg) {
           switch (this.component.editor) {
             case 'ace':
-              editor.setValue(this.setConvertedValue(value, index));
-              break;
+              throw new Error('unsupported editor');
             case 'quill':
               if (this.component.isUploadEnabled) {
                 this.setAsyncConvertedValue(value)
@@ -310,8 +260,7 @@ export default class TextAreaComponent extends TextFieldComponent {
               }
               break;
             case 'ckeditor':
-              editor.data.set(this.setConvertedValue(value, index));
-              break;
+              throw new Error('unsupported editor');
           }
         }
       };
@@ -570,16 +519,10 @@ export default class TextAreaComponent extends TextFieldComponent {
     super.focus();
     switch (this.component.editor) {
       case 'ckeditor': {
-        if (this.editors[0].editing?.view?.focus) {
-          this.editors[0].editing.view.focus();
-        }
-        this.element.scrollIntoView();
-        break;
+        throw new Error('unsupported editor');
       }
       case 'ace': {
-        this.editors[0].focus();
-        this.element.scrollIntoView();
-        break;
+        throw new Error('unsupported editor');
       }
       case 'quill': {
         this.editors[0].focus();

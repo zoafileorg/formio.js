@@ -73,7 +73,7 @@ export default [
               },
               {
                 type: 'textarea',
-                editor: 'ace',
+                editor: '',
                 rows: 10,
                 as: 'html',
                 label: 'Content',

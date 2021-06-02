@@ -14,15 +14,15 @@ export default [
     key: 'mask',
     ignore: true
   },
-  {
-    type: 'number',
-    input: true,
-    key: 'rows',
-    label: 'Rows',
-    weight: 210,
-    tooltip: 'This allows control over how many rows are visible in the text area.',
-    placeholder: 'Enter the amount of rows'
-  },
+  // {
+  //   type: 'number',
+  //   input: true,
+  //   key: 'rows',
+  //   label: 'Rows',
+  //   weight: 210,
+  //   tooltip: 'This allows control over how many rows are visible in the text area.',
+  //   placeholder: 'Enter the amount of rows'
+  // },
   {
     weight: 1350,
     type: 'checkbox',
@@ -31,23 +31,23 @@ export default [
     defaultValue: true,
     label: 'Allow Spellcheck'
   },
-  {
-    type: 'select',
-    input: true,
-    key: 'editor',
-    label: 'Editor',
-    tooltip: 'Select the type of WYSIWYG editor to use for this text area.',
-    dataSrc: 'values',
-    data: {
-      values: [
-        { label: 'None', value: '' },
-        { label: 'ACE', value: 'ace' },
-        { label: 'CKEditor', value: 'ckeditor' },
-        { label: 'Quill', value: 'quill' },
-      ]
-    },
-    weight: 415
-  },
+  // {
+  //   type: 'select',
+  //   input: true,
+  //   key: 'editor',
+  //   label: 'Editor',
+  //   tooltip: 'Select the type of WYSIWYG editor to use for this text area.',
+  //   dataSrc: 'values',
+  //   data: {
+  //     values: [
+  //       { label: 'None', value: '' },
+  //       { label: 'ACE', value: 'ace' },
+  //       { label: 'CKEditor', value: 'ckeditor' },
+  //       { label: 'Quill', value: 'quill' },
+  //     ]
+  //   },
+  //   weight: 415
+  // },
   {
     type: 'checkbox',
     input: true,
@@ -64,31 +64,31 @@ export default [
       }
     }
   },
-  {
-    type: 'checkbox',
-    input: true,
-    key: 'isUploadEnabled',
-    label: 'Enable Image Upload',
-    weight: 415.1,
-    conditional: {
-      json: {
-        or: [
-          {
-            '===': [
-              { var: 'data.editor' },
-              'quill'
-            ],
-          },
-          {
-            '===': [
-              { var: 'data.editor' },
-              'ckeditor'
-            ],
-          }
-        ]
-      }
-    }
-  },
+  // {
+  //   type: 'checkbox',
+  //   input: true,
+  //   key: 'isUploadEnabled',
+  //   label: 'Enable Image Upload',
+  //   weight: 415.1,
+  //   conditional: {
+  //     json: {
+  //       or: [
+  //         {
+  //           '===': [
+  //             { var: 'data.editor' },
+  //             'quill'
+  //           ],
+  //         },
+  //         {
+  //           '===': [
+  //             { var: 'data.editor' },
+  //             'ckeditor'
+  //           ],
+  //         }
+  //       ]
+  //     }
+  //   }
+  // },
   {
     type: 'select',
     input: true,
@@ -134,7 +134,7 @@ export default [
     label: 'Image Upload Custom request options',
     tooltip: 'Pass your custom xhr options(optional)',
     rows: 5,
-    editor: 'ace',
+    editor: '',
     input: true,
     weight: 415.4,
     placeholder: `{
@@ -193,67 +193,67 @@ export default [
       }
     }
   },
-  {
-    type: 'select',
-    input: true,
-    key: 'as',
-    label: 'Save As',
-    dataSrc: 'values',
-    tooltip: 'This setting determines how the value should be entered and stored in the database.',
-    clearOnHide: true,
-    data: {
-      values: [
-        { label: 'String', value: 'string' },
-        { label: 'JSON', value: 'json' },
-        { label: 'HTML', value: 'html' }
-      ]
-    },
-    conditional: {
-      json: {
-        or: [
-          { '===': [
-            { var: 'data.editor' },
-            'quill'
-          ] },
-          { '===': [
-            { var: 'data.editor' },
-            'ace'
-          ] }
-        ]
-      }
-    },
-    weight: 416
-  },
-  {
-    type: 'textarea',
-    input: true,
-    editor: 'ace',
-    rows: 10,
-    as: 'json',
-    label: 'Editor Settings',
-    tooltip: 'Enter the WYSIWYG editor JSON configuration.',
-    key: 'wysiwyg',
-    customDefaultValue(value, component, row, data, instance) {
-      return instance ? instance.wysiwygDefault : '';
-    },
-    conditional: {
-      json: {
-        or: [
-          { '===': [
-              { var: 'data.editor' },
-              'ace'
-            ] },
-          { '===': [
-            { var: 'data.editor' },
-            'ckeditor'
-          ] },
-          { '===': [
-            { var: 'data.editor' },
-            'quill'
-          ] },
-        ]
-      }
-    },
-    weight: 417
-  }
+  // {
+  //   type: 'select',
+  //   input: true,
+  //   key: 'as',
+  //   label: 'Save As',
+  //   dataSrc: 'values',
+  //   tooltip: 'This setting determines how the value should be entered and stored in the database.',
+  //   clearOnHide: true,
+  //   data: {
+  //     values: [
+  //       { label: 'String', value: 'string' },
+  //       { label: 'JSON', value: 'json' },
+  //       { label: 'HTML', value: 'html' }
+  //     ]
+  //   },
+  //   conditional: {
+  //     json: {
+  //       or: [
+  //         { '===': [
+  //           { var: 'data.editor' },
+  //           'quill'
+  //         ] },
+  //         { '===': [
+  //           { var: 'data.editor' },
+  //           'ace'
+  //         ] }
+  //       ]
+  //     }
+  //   },
+  //   weight: 416
+  // },
+  // {
+  //   type: 'textarea',
+  //   input: true,
+  //   editor: '',
+  //   rows: 10,
+  //   as: 'json',
+  //   label: 'Editor Settings',
+  //   tooltip: 'Enter the WYSIWYG editor JSON configuration.',
+  //   key: 'wysiwyg',
+  //   customDefaultValue(value, component, row, data, instance) {
+  //     return instance ? instance.wysiwygDefault : '';
+  //   },
+  //   conditional: {
+  //     json: {
+  //       or: [
+  //         { '===': [
+  //             { var: 'data.editor' },
+  //             'ace'
+  //           ] },
+  //         { '===': [
+  //           { var: 'data.editor' },
+  //           'ckeditor'
+  //         ] },
+  //         { '===': [
+  //           { var: 'data.editor' },
+  //           'quill'
+  //         ] },
+  //       ]
+  //     }
+  //   },
+  //   weight: 417
+  // }
 ];

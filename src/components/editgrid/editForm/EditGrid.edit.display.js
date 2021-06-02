@@ -45,7 +45,7 @@ export default [
     label: 'Conditional Add Button',
     placeholder: 'show = ...',
     tooltip: 'Specify condition when Add Button should be displayed.',
-    editor: 'ace',
+    editor: '',
     as: 'javascript',
     wysiwyg: {
       minLines: 3,

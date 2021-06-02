@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import stringHash from 'string-hash';
 const Evaluator = {
-  noeval: false,
+  noeval: true,
   protectedEval: false, // This property can be customized only by plugins
   cache: {},
   templateSettings: {

@@ -3,14 +3,14 @@ export default [
     key: 'labelPosition',
     ignore: true
   },
-  {
-    weight: 15,
-    type: 'checkbox',
-    label: 'Hide Input Labels',
-    tooltip: 'Hide the labels of component inputs. This allows you to show the labels in the form builder, but not when it is rendered.',
-    key: 'hideInputLabels',
-    input: true
-  },
+  // {
+  //   weight: 15,
+  //   type: 'checkbox',
+  //   label: 'Hide Input Labels',
+  //   tooltip: 'Hide the labels of component inputs. This allows you to show the labels in the form builder, but not when it is rendered.',
+  //   key: 'hideInputLabels',
+  //   input: true
+  // },
   {
     type: 'select',
     input: true,

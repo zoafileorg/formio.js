@@ -25,7 +25,7 @@ export default function(...extend) {
   editForm.components = [{
     weight: 0,
     type: 'textarea',
-    editor: 'ckeditor',
+    editor: 'quill',
     label: 'Content',
     hideLabel: true,
     input: true,

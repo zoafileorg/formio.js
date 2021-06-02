@@ -26,24 +26,24 @@ export default [
     placeholder: 'Height',
     weight: 51
   },
-  {
-    type: 'textfield',
-    input: true,
-    key: 'backgroundColor',
-    label: 'Background Color',
-    tooltip: 'The background color of the signature area.',
-    placeholder: 'Background Color',
-    weight: 52
-  },
-  {
-    type: 'textfield',
-    input: true,
-    key: 'penColor',
-    label: 'Pen Color',
-    tooltip: 'The ink color for the signature area.',
-    placeholder: 'Pen Color',
-    weight: 53
-  },
+  // {
+  //   type: 'textfield',
+  //   input: true,
+  //   key: 'backgroundColor',
+  //   label: 'Background Color',
+  //   tooltip: 'The background color of the signature area.',
+  //   placeholder: 'Background Color',
+  //   weight: 52
+  // },
+  // {
+  //   type: 'textfield',
+  //   input: true,
+  //   key: 'penColor',
+  //   label: 'Pen Color',
+  //   tooltip: 'The ink color for the signature area.',
+  //   placeholder: 'Pen Color',
+  //   weight: 53
+  // },
   {
     key: 'placeholder',
     ignore: true,

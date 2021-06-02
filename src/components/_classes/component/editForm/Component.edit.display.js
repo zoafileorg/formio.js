@@ -95,11 +95,14 @@ export default [
     label: 'Description',
     placeholder: 'Description for this field.',
     tooltip: 'The description is text that will appear below the input field.',
-    editor: 'ace',
+    editor: '',
     as: 'html',
     wysiwyg: {
       minLines: 3,
       isUseWorkerDisabled: true,
+      modules: {
+        toolbar: false,
+      }
     },
   },
   {
@@ -110,11 +113,14 @@ export default [
     label: 'Tooltip',
     placeholder: 'To add a tooltip to this field, enter text here.',
     tooltip: 'Adds a tooltip to the side of this field.',
-    editor: 'ace',
+    editor: '',
     as: 'html',
     wysiwyg: {
       minLines: 3,
       isUseWorkerDisabled: true,
+      modules: {
+        toolbar: false,
+      }
     },
   },
   {
@@ -135,14 +141,14 @@ export default [
     placeholder: '0',
     tooltip: 'Sets the tabindex attribute of this component to override the tab order of the form. See the <a href=\'https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex\'>MDN documentation</a> on tabindex for more information.'
   },
-  {
-    weight: 1100,
-    type: 'checkbox',
-    label: 'Hidden',
-    tooltip: 'A hidden field is still a part of the form, but is hidden from view.',
-    key: 'hidden',
-    input: true
-  },
+  // {
+  //   weight: 1100,
+  //   type: 'checkbox',
+  //   label: 'Hidden',
+  //   tooltip: 'A hidden field is still a part of the form, but is hidden from view.',
+  //   key: 'hidden',
+  //   input: true
+  // },
   {
     weight: 1200,
     type: 'checkbox',
@@ -151,14 +157,14 @@ export default [
     key: 'hideLabel',
     input: true
   },
-  {
-    weight: 1350,
-    type: 'checkbox',
-    label: 'Initial Focus',
-    tooltip: 'Make this field the initially focused element on this form.',
-    key: 'autofocus',
-    input: true
-  },
+  // {
+  //   weight: 1350,
+  //   type: 'checkbox',
+  //   label: 'Initial Focus',
+  //   tooltip: 'Make this field the initially focused element on this form.',
+  //   key: 'autofocus',
+  //   input: true
+  // },
   {
     weight: 1370,
     type: 'checkbox',
@@ -170,29 +176,29 @@ export default [
       return context.instance.options?.flags?.inDataGrid;
     }
   },
-  {
-    weight: 1400,
-    type: 'checkbox',
-    label: 'Disabled',
-    tooltip: 'Disable the form input.',
-    key: 'disabled',
-    input: true
-  },
-  {
-    weight: 1500,
-    type: 'checkbox',
-    label: 'Table View',
-    tooltip: 'Shows this value within the table view of the submissions.',
-    key: 'tableView',
-    input: true
-  },
-  {
-    weight: 1600,
-    type: 'checkbox',
-    label: 'Modal Edit',
-    tooltip: 'Opens up a modal to edit the value of this component.',
-    key: 'modalEdit',
-    input: true
-  },
+  // {
+  //   weight: 1400,
+  //   type: 'checkbox',
+  //   label: 'Disabled',
+  //   tooltip: 'Disable the form input.',
+  //   key: 'disabled',
+  //   input: true
+  // },
+  // {
+  //   weight: 1500,
+  //   type: 'checkbox',
+  //   label: 'Table View',
+  //   tooltip: 'Shows this value within the table view of the submissions.',
+  //   key: 'tableView',
+  //   input: true
+  // },
+  // {
+  //   weight: 1600,
+  //   type: 'checkbox',
+  //   label: 'Modal Edit',
+  //   tooltip: 'Opens up a modal to edit the value of this component.',
+  //   key: 'modalEdit',
+  //   input: true
+  // },
 ];
 /* eslint-enable max-len */

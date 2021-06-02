@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        ci_node_total: [1]
+        # os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: yarn install
+      run: |
+        yarn install
+
+    - name: yarn test
+      run: |
+        yarn test

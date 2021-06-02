@@ -23,8 +23,18 @@ export default class AddressComponent extends ContainerComponent {
       label: 'Address',
       key: 'address',
       switchToManualModeLabel: 'Can\'t find address? Switch to manual mode.',
-      provider: '',
-      providerOptions: {},
+      provider: GoogleAddressProvider.name,
+      providerOptions: {
+        params: {
+          key: 'ZOAFILE_API_GOOGLE_MAPS_AUTOCOMPLETE_KEY',
+          autocompleteOptions: {
+            componentRestrictions: {
+              country: ['us', 'ca']
+            },
+            types: ['address']
+          }
+        },
+      },
       manualModeViewString: '',
       hideLabel: false,
       disableClearIcon: false,
@@ -55,7 +65,7 @@ export default class AddressComponent extends ContainerComponent {
           customConditional: ChildConditional,
         },
         {
-          label: 'State',
+          label: 'State/Province',
           tableView: false,
           key: 'state',
           type: 'textfield',
@@ -71,7 +81,7 @@ export default class AddressComponent extends ContainerComponent {
           customConditional: ChildConditional,
         },
         {
-          label: 'Zip Code',
+          label: 'Zip/Postal Code',
           tableView: false,
           key: 'zip',
           type: 'textfield',

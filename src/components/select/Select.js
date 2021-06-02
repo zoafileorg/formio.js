@@ -33,7 +33,7 @@ export default class SelectComponent extends Field {
       searchEnabled: true,
       searchField: '',
       minSearch: 0,
-      readOnlyValue: false,
+      readOnlyValue: true,
       authenticate: false,
       ignoreCache: false,
       template: '<span>{{ item.label }}</span>',

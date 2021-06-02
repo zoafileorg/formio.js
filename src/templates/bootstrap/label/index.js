@@ -1,2 +1,4 @@
 import form from './form.ejs';
-export default { form };
+import html from './html.ejs';
+
+export default { form, html };

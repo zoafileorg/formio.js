@@ -75,7 +75,7 @@ export default [
     label: 'Custom request options',
     tooltip: 'Pass your custom xhr options(optional)',
     rows: 5,
-    editor: 'ace',
+    editor: '',
     input: true,
     weight: 15,
     placeholder: `{

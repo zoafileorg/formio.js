@@ -317,7 +317,7 @@ export default [
   },
   {
     label: 'Template',
-    editor: 'ace',
+    editor: '',
     tableView: true,
     key: 'template',
     type: 'textarea',

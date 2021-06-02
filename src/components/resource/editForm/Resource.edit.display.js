@@ -62,7 +62,7 @@ export default [
     input: true,
     key: 'template',
     label: 'Item Template',
-    editor: 'ace',
+    editor: '',
     as: 'html',
     rows: 3,
     weight: 53,

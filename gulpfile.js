@@ -87,27 +87,6 @@ const compileStyles = (styles, file) => {
     .pipe(cleanCSS({ compatibility: 'ie8' }))
     .pipe(gulp.dest('dist'));
 };
-gulp.task('styles-embed', function embedStyles() {
-  return compileStyles([
-    './src/sass/formio.embed.scss'
-  ], 'formio.embed');
-});
-gulp.task('styles-form', function formStyles() {
-  return compileStyles([
-    './node_modules/@formio/choices.js/public/assets/styles/choices.min.css',
-    './node_modules/dialog-polyfill/dialog-polyfill.css',
-    './src/sass/formio.form.scss'
-  ], 'formio.form');
-});
-gulp.task('styles-builder', function builderStyles() {
-  return compileStyles([
-    './node_modules/@formio/choices.js/public/assets/styles/choices.min.css',
-    './node_modules/dialog-polyfill/dialog-polyfill.css',
-    './node_modules/dragula/dist/dragula.css',
-    './src/sass/formio.form.scss',
-    './src/sass/formio.form.builder.scss'
-  ], 'formio.builder');
-});
 gulp.task('styles-full', gulp.series('builder-fonts', function fullStyles() {
   return compileStyles([
     './node_modules/@formio/choices.js/public/assets/styles/choices.min.css',
@@ -150,12 +129,6 @@ gulp.task('formio.embed.js', () =>
     .pipe(rename('formio.embed.js'))
     .pipe(gulp.dest('dist')));
 gulp.task('scripts-embed', gulp.series('formio.embed.min.js', 'formio.embed.js'));
-gulp.task('scripts-contrib', build('contrib/index.js', 'formio.contrib.js'));
-
-gulp.task('jquery', () => gulp.src('./node_modules/jquery/dist/**/*.*').pipe(gulp.dest('./app/jquery')));
-gulp.task('fontawesome', () => gulp.src('./node_modules/font-awesome/**/*.*').pipe(gulp.dest('./app/fontawesome')));
-gulp.task('bootstrap', () => gulp.src('./node_modules/bootstrap/dist/**/*.*').pipe(gulp.dest('./app/bootstrap')));
-gulp.task('bootswatch', () => gulp.src('./node_modules/bootswatch/**/*.*').pipe(gulp.dest('./app/bootswatch')));
 
 // Copy the version and dependencies into the distribution package.json file.
 gulp.task('package-version', function() {
@@ -176,9 +149,6 @@ gulp.task('types-index', () => gulp.src(['index.d.ts']).pipe(gulp.dest('lib')));
 gulp.task('types-folder', () => gulp.src(['types/**/*.*']).pipe(gulp.dest('lib/types')));
 gulp.task('types', gulp.parallel('types-index', 'types-folder'));
 
-// Copy over the readme and changelog files
-gulp.task('readme', () => gulp.src(['README.md', 'Changelog.md']).pipe(gulp.dest('lib')));
-
 // Watch for changes.
 gulp.task('watch', () => gulp.watch(['./src/*.js', './src/**/*.js'], gulp.series('scripts-full')));
 
@@ -192,38 +162,20 @@ gulp.task('build', gulp.series(
   'templates',
   'package-version',
   gulp.parallel(
-    'jquery',
-    'timezones',
-    'fontawesome',
-    'bootstrap',
-    'bootswatch'
+    'timezones'
   ),
   gulp.parallel(
-    'styles-embed',
-    'styles-form',
-    'styles-builder',
     'styles-full',
-    'scripts-formio',
-    'scripts-utils',
-    'scripts-embed',
-    'scripts-contrib',
-    'scripts-form',
     'scripts-full'
   ),
   'dist',
-  'types',
-  'readme'
+  'types'
 ));
 
 // Create a new build (scripts only)
 gulp.task('rebuild-scripts', gulp.series(
   'babel-nolint',
   gulp.parallel(
-    'scripts-formio',
-    'scripts-utils',
-    'scripts-embed',
-    'scripts-contrib',
-    'scripts-form',
     'scripts-full'
   ),
   'dist',

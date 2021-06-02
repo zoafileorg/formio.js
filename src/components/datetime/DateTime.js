@@ -15,7 +15,7 @@ export default class DateTimeComponent extends Input {
       enableDate: true,
       enableTime: true,
       defaultValue: '',
-      defaultDate: '',
+      defaultDate: 'moment()',
       displayInTimezone: 'viewer',
       timezone: '',
       datepickerMode: 'day',

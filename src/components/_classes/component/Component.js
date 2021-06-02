@@ -1,4 +1,4 @@
-/* globals Quill, ClassicEditor, CKEDITOR */
+/* globals Quill */
 import { conformToMask } from '@formio/vanilla-text-mask';
 import NativePromise from 'native-promise-only';
 import Tooltip from 'tooltip.js';
@@ -22,14 +22,10 @@ import { getFormioUploadAdapterPlugin } from '../../../providers/storage/uploadA
 import enTranslation from '../../../translations/en';
 
 const isIEBrowser = FormioUtils.getBrowserInfo().ie;
-const CKEDITOR_URL = isIEBrowser
-      ? 'https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js'
-      : 'https://cdn.form.io/ckeditor/19.0.0/ckeditor.js';
 const QUILL_URL = isIEBrowser
   ? 'https://cdn.quilljs.com/1.3.7'
   : 'https://cdn.quilljs.com/2.0.0-dev.3';
 const QUILL_TABLE_URL = 'https://cdn.form.io/quill/quill-table.js';
-const ACE_URL = 'https://cdn.form.io/ace/1.4.10/ace.js';
 
 /**
  * This is the Component class
@@ -1415,10 +1411,10 @@ export default class Component extends Element {
 
     dialog.refs.dialogContents.appendChild(element);
     document.body.appendChild(dialog);
-    document.body.classList.add('modal-open');
+    document.body.classList.add('modal-open', 'is-formiojs-styling');
 
     dialog.close = () => {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove('modal-open', 'is-formiojs-styling');
       dialog.dispatchEvent(new CustomEvent('close'));
     };
     this.addEventListener(dialog, 'close', () => this.removeChildFrom(dialog, document.body));
@@ -2079,92 +2075,23 @@ export default class Component extends Element {
         theme: 'snow',
         placeholder: this.t(this.component.placeholder, { _userInput: true }),
         modules: {
+          table: true,
           toolbar: [
             [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'font': [] }],
-            ['bold', 'italic', 'underline', 'strike', { 'script': 'sub' }, { 'script': 'super' }, 'clean'],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
-            ['blockquote', 'code-block'],
-            ['link', 'image', 'video', 'formula', 'source']
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'align': [] }],
           ]
         }
-      },
-      ace: {
-        theme: 'ace/theme/xcode',
-        maxLines: 12,
-        minLines: 12,
-        tabSize: 2,
-        mode: 'ace/mode/javascript',
-        placeholder: this.t(this.component.placeholder, { _userInput: true })
-      },
-      ckeditor: {
-        image: {
-          toolbar: [
-            'imageTextAlternative',
-            '|',
-            'imageStyle:full',
-            'imageStyle:alignLeft',
-            'imageStyle:alignCenter',
-            'imageStyle:alignRight'
-          ],
-          styles: [
-            'full',
-            'alignLeft',
-            'alignCenter',
-            'alignRight'
-          ]
-        },
-        extraPlugins: []
       },
       default: {}
     };
   }
 
-  addCKE(element, settings, onChange) {
-    settings = _.isEmpty(settings) ? {} : settings;
-    settings.base64Upload = this.component.isUploadEnabled ? false : true;
-    settings.mediaEmbed = { previewsInData: true };
-    settings = _.merge(this.wysiwygDefault.ckeditor, _.get(this.options, 'editors.ckeditor.settings', {}), settings);
-
-    if (this.component.isUploadEnabled) {
-      settings.extraPlugins.push(getFormioUploadAdapterPlugin(this.fileService, this));
-    }
-
-    return Formio.requireLibrary(
-      'ckeditor',
-      isIEBrowser ? 'CKEDITOR' : 'ClassicEditor',
-      _.get(this.options, 'editors.ckeditor.src',
-      CKEDITOR_URL
-    ), true)
-      .then(() => {
-        if (!element.parentNode) {
-          return NativePromise.reject();
-        }
-        if (isIEBrowser) {
-          const editor = CKEDITOR.replace(element);
-          editor.on('change', () => onChange(editor.getData()));
-          return NativePromise.resolve(editor);
-        }
-        else {
-          return ClassicEditor.create(element, settings).then(editor => {
-            editor.model.document.on('change', () => onChange(editor.data.get()));
-            return editor;
-          });
-        }
-      });
-  }
-
   addQuill(element, settings, onChange) {
     settings = _.isEmpty(settings) ? this.wysiwygDefault.quill : settings;
     settings = _.merge(this.wysiwygDefault.quill, _.get(this.options, 'editors.quill.settings', {}), settings);
-    settings = {
-      ...settings,
-      modules: {
-        table: true
-      }
-    };
+
     // Lazy load the quill css.
     Formio.requireLibrary(`quill-css-${settings.theme}`, 'Quill', [
       { type: 'styles', src: `${QUILL_URL}/quill.${settings.theme}.css` }
@@ -2212,29 +2139,6 @@ export default class Component extends Element {
 
             return this.quill;
           });
-      });
-  }
-
-  addAce(element, settings, onChange) {
-    if (!settings || (settings.theme === 'snow')) {
-      const mode = settings ? settings.mode : '';
-      settings = {};
-      if (mode) {
-        settings.mode = mode;
-      }
-    }
-    settings = _.merge(this.wysiwygDefault.ace, _.get(this.options, 'editors.ace.settings', {}), settings || {});
-    return Formio.requireLibrary('ace', 'ace', _.get(this.options, 'editors.ace.src', ACE_URL), true)
-      .then((editor) => {
-        editor = editor.edit(element);
-        editor.removeAllListeners('change');
-        editor.setOptions(settings);
-        editor.getSession().setMode(settings.mode);
-        editor.on('change', () => onChange(editor.getValue()));
-        if (settings.isUseWorkerDisabled) {
-          editor.session.setUseWorker(false);
-        }
-        return editor;
       });
   }
 

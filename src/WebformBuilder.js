@@ -544,7 +544,6 @@ export default class WebformBuilder extends Component {
       this.loadRefs(element, {
         form: 'single',
         sidebar: 'single',
-        'sidebar-search': 'single',
         'sidebar-groups': 'single',
         'container': 'multiple',
         'sidebar-anchor': 'multiple',
@@ -593,13 +592,6 @@ export default class WebformBuilder extends Component {
         });
       }
 
-      this.addEventListener(this.refs['sidebar-search'], 'input',
-        _.debounce((e) => {
-          const searchString = e.target.value;
-          this.searchFields(searchString);
-        }, 300)
-      );
-
       if (this.dragDropEnabled) {
         this.initDragula();
       }
@@ -608,80 +600,6 @@ export default class WebformBuilder extends Component {
         return this.webform.attach(this.refs.form);
       }
     });
-  }
-
-  searchFields(searchString = '') {
-    const searchValue = searchString.toLowerCase();
-    const sidebar = this.refs['sidebar'];
-    const sidebarGroups = this.refs['sidebar-groups'];
-
-    if (!sidebar || !sidebarGroups) {
-      return;
-    }
-
-    const filterGroupBy = (group, searchValue = '') => {
-      const result = _.toPlainObject(group);
-      const { subgroups = [], components } = result;
-      const filteredComponents = [];
-
-      for (const key in components) {
-        const isMatchedToTitle = components[key].title.toLowerCase().match(searchValue);
-        const isMatchedToKey = components[key].key.toLowerCase().match(searchValue);
-
-        if (isMatchedToTitle || isMatchedToKey) {
-          filteredComponents.push(components[key]);
-        }
-      }
-
-      this.orderComponents(result, filteredComponents);
-      if (searchValue) {
-        result.default = true;
-      }
-      if (result.componentOrder.length || subgroups.length) {
-        return result;
-      }
-      return null;
-    };
-
-    const filterGroupOrder = (groupOrder, searchValue) => {
-      const result = _.cloneDeep(groupOrder);
-      return result.filter(key => filterGroupBy(this.groups[key], searchValue));
-    };
-
-    const filterSubgroups = (groups, searchValue) => {
-      const result = _.clone(groups);
-      return result
-            .map(subgroup => filterGroupBy(subgroup, searchValue))
-            .filter(subgroup => !_.isNull(subgroup));
-    };
-
-    const toTemplate = groupKey => {
-      return {
-        group: filterGroupBy(this.groups[groupKey], searchValue),
-        groupKey,
-        groupId: sidebar.id || sidebarGroups.id,
-        subgroups: filterSubgroups(this.groups[groupKey].subgroups, searchValue)
-                  .map((group) => this.renderTemplate('builderSidebarGroup', {
-                    group,
-                    groupKey: group.key,
-                    groupId: `group-container-${groupKey}`,
-                    subgroups: []
-                  })),
-      };
-    };
-
-    sidebarGroups.innerHTML = filterGroupOrder(this.groupOrder, searchValue)
-                              .map(groupKey => this.renderTemplate('builderSidebarGroup', toTemplate(groupKey)))
-                              .join('');
-
-    this.loadRefs(this.element, {
-      'sidebar-groups': 'single',
-      'sidebar-anchor': 'multiple',
-      'sidebar-group': 'multiple',
-      'sidebar-container': 'multiple',
-    });
-
-    this.updateDragAndDrop();
   }
 
   orderComponents(groupInfo, foundComponents) {
@@ -965,23 +883,6 @@ export default class WebformBuilder extends Component {
   setForm(form) {
     if (!form.components) {
       form.components = [];
-    }
-
-    const isShowSubmitButton = !this.options.noDefaultSubmitButton
-      && !form.components.length;
-
-    // Ensure there is at least a submit button.
-    if (isShowSubmitButton) {
-      form.components.push({
-        type: 'button',
-        label: 'Submit',
-        key: 'submit',
-        size: 'md',
-        block: false,
-        action: 'submit',
-        disableOnInvalid: true,
-        theme: 'primary'
-      });
     }
 
     if (this.webform) {
@@ -1324,7 +1225,7 @@ export default class WebformBuilder extends Component {
         {
           type: 'textarea',
           as: 'json',
-          editor: 'ace',
+          editor: '',
           weight: 10,
           input: true,
           key: 'componentJson',
@@ -1374,7 +1275,6 @@ export default class WebformBuilder extends Component {
       componentInfo: ComponentClass.builderInfo,
       editForm: this.editForm.render(),
       preview: this.preview ? this.preview.render() : false,
-      helplinks: this.helplinks,
     }));
 
     this.dialog = this.createModal(this.componentEdit, _.get(this.options, 'dialogAttr', {}));

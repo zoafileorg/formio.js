@@ -145,7 +145,7 @@ export default [
     label: 'Button Custom Logic',
     tooltip: 'The custom logic to evaluate when the button is clicked.',
     rows: 5,
-    editor: 'ace',
+    editor: '',
     input: true,
     weight: 120,
     placeholder: "data['mykey'] = data['anotherKey'];",

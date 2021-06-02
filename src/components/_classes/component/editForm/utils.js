@@ -77,7 +77,7 @@ const EditFormUtils = {
             type: 'textarea',
             key: property,
             rows: 5,
-            editor: 'ace',
+            editor: '',
             hideLabel: true,
             as: 'javascript',
             input: true
@@ -109,7 +109,7 @@ const EditFormUtils = {
             type: 'textarea',
             key: propertyJSON,
             rows: 5,
-            editor: 'ace',
+            editor: '',
             hideLabel: true,
             as: 'json',
             input: true

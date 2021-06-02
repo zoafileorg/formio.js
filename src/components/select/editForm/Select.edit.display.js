@@ -5,7 +5,7 @@ export default [
     weight: 20,
     tooltip: 'Select the type of widget you\'d like to use.',
     key: 'widget',
-    defaultValue: 'choicesjs',
+    defaultValue: 'html5',
     label: 'Widget Type',
     dataSrc: 'values',
     data: {

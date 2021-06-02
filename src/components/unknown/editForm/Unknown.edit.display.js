@@ -15,7 +15,7 @@ export default [
   {
     type: 'textarea',
     as: 'json',
-    editor: 'ace',
+    editor: '',
     weight: 10,
     input: true,
     key: 'componentJson',
