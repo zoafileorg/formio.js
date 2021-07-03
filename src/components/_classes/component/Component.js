@@ -960,7 +960,7 @@ export default class Component extends Element {
       settings.shadowRoot = this.root.shadowRoot;
     }
 
-    const widget = settings && Widgets[settings.type] ? new Widgets[settings.type](settings, this.component): null;
+    const widget = settings && Widgets[settings.type] ? new Widgets[settings.type](settings, this.component, this): null;
     return widget;
   }
 
@@ -2548,17 +2548,12 @@ export default class Component extends Element {
     return value;
   }
 
-  doValueCalculation(dataValue, data, row, flags) {
-    // If data was calculated in a submission and the editing mode is on, skip calculating
-    if (!flags.fromSubmission || !this.component.persistent) {
+  doValueCalculation(dataValue, data, row) {
       return this.evaluate(this.component.calculateValue, {
         value: dataValue,
         data,
         row: row || this.data
       }, 'value');
-    }
-
-    return dataValue;
   }
 
   calculateComponentValue(data, flags, row) {
@@ -2588,6 +2583,12 @@ export default class Component extends Element {
 
     const changed = !_.isEqual(dataValue, calculatedValue);
 
+    if (flags.fromSubmission && this.component.persistent === true) {
+      // If we set value from submission and it differs from calculated one, set the calculated value to prevent overriding dataValue in the next pass
+      this.calculatedValue = calculatedValue;
+      return false;
+    }
+
     // Do not override calculations on server if they have calculateServer set.
     if (this.component.allowCalculateOverride) {
       const firstPass = (this.calculatedValue === undefined);
@@ -2604,12 +2605,6 @@ export default class Component extends Element {
       }
 
       if (flags.isReordered || !calculationChanged) {
-        return false;
-      }
-
-      if (flags.fromSubmission && this.component.persistent === true) {
-        // If we set value from submission and it differs from calculated one, set the calculated value to prevent overriding dataValue in the next pass
-        this.calculatedValue = calculatedValue;
         return false;
       }
 
