@@ -74,7 +74,7 @@
       "inputFormat": "plain",
       "tags": [],
       "properties": {},
-      "customDefaultValue": "value = 'Text Calculated Default';",
+      "customDefaultValue": "",
       "placeholder": "",
       "prefix": "",
       "customClass": "",

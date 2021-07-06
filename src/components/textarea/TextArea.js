@@ -12,7 +12,7 @@ export default class TextAreaComponent extends TextFieldComponent {
       key: 'textArea',
       rows: 3,
       wysiwyg: false,
-      editor: 'quill',
+      editor: null,
       fixedSize: true,
       inputFormat: 'html',
       validate: {

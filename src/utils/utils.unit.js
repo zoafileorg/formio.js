@@ -282,42 +282,42 @@ describe('Util Tests', () => {
     });
   });
 
-  describe('checkCalculated', () => {
-    it('should be able to calculate value based on javascript code', () => {
-      const component = {
-        key: 'sum',
-        calculateValue: 'value = 3'
-      };
-      const data = {};
+  // describe('checkCalculated', () => {
+  //   it('should be able to calculate value based on javascript code', () => {
+  //     const component = {
+  //       key: 'sum',
+  //       calculateValue: 'value = 3'
+  //     };
+  //     const data = {};
 
-      utils.checkCalculated(component, null, data);
-      expect(data.sum).to.be.equal(3);
-    });
+  //     utils.checkCalculated(component, null, data);
+  //     expect(data.sum).to.be.equal(3);
+  //   });
 
-    it('should be able to calculate value based on json logic', () => {
-      const component = {
-        key: 'sum',
-        calculateValue: {
-          '_sum': { var: 'data.test' }
-        }
-      };
-      const data = { test: [1, 2, 3] };
+  //   it('should be able to calculate value based on json logic', () => {
+  //     const component = {
+  //       key: 'sum',
+  //       calculateValue: {
+  //         '_sum': { var: 'data.test' }
+  //       }
+  //     };
+  //     const data = { test: [1, 2, 3] };
 
-      utils.checkCalculated(component, null, data);
-      expect(data.sum).to.be.equal(6);
-    });
+  //     utils.checkCalculated(component, null, data);
+  //     expect(data.sum).to.be.equal(6);
+  //   });
 
-    it('should return undefined if no logic provided', () => {
-      const component = {
-        key: 'sum',
-        calculateValue: '/* do nothing */'
-      };
-      const data = {};
+  //   it('should return undefined if no logic provided', () => {
+  //     const component = {
+  //       key: 'sum',
+  //       calculateValue: '/* do nothing */'
+  //     };
+  //     const data = {};
 
-      utils.checkCalculated(component, null, data);
-      expect(data.sum).to.be.undefined;
-    });
-  });
+  //     utils.checkCalculated(component, null, data);
+  //     expect(data.sum).to.be.undefined;
+  //   });
+  // });
 
   describe('checkCondition', () => {
     it('should display component by default', () => {
@@ -391,14 +391,14 @@ describe('Util Tests', () => {
       expect(utils.getDateSetting(date.toISOString())).to.be.eql(date);
     });
 
-    it('should be able to get value using moment APIs', () => {
-      const validMomentExpression = 'moment(0)';
-      const validDate = new Date(0);
-      const invalidMomentExpression = "moment('')";
+    // it('should be able to get value using moment APIs', () => {
+    //   const validMomentExpression = 'moment(0)';
+    //   const validDate = new Date(0);
+    //   const invalidMomentExpression = "moment('')";
 
-      expect(utils.getDateSetting(validMomentExpression)).to.be.eql(validDate);
-      expect(utils.getDateSetting(invalidMomentExpression)).to.be.equal(null);
-    });
+    //   expect(utils.getDateSetting(validMomentExpression)).to.be.eql(validDate);
+    //   expect(utils.getDateSetting(invalidMomentExpression)).to.be.equal(null);
+    // });
   });
 
   describe('checkTrigger', () => {
@@ -424,20 +424,20 @@ describe('Util Tests', () => {
       expect(utils.checkTrigger(component, trigger, null, data2)).to.be.equal(false);
     });
 
-    it('should be able to calculate trigger based on javascript code', () => {
-      const component = {
-        key: 'sum'
-      };
-      const trigger = {
-        type: 'javascript',
-        javascript: 'result = data.test === 3'
-      };
-      const data1 = { test: 3 };
-      const data2 = { test: 5 };
+    // it('should be able to calculate trigger based on javascript code', () => {
+    //   const component = {
+    //     key: 'sum'
+    //   };
+    //   const trigger = {
+    //     type: 'javascript',
+    //     javascript: 'result = data.test === 3'
+    //   };
+    //   const data1 = { test: 3 };
+    //   const data2 = { test: 5 };
 
-      expect(utils.checkTrigger(component, trigger, null, data1)).to.be.equal(true);
-      expect(utils.checkTrigger(component, trigger, null, data2)).to.be.equal(false);
-    });
+    //   expect(utils.checkTrigger(component, trigger, null, data1)).to.be.equal(true);
+    //   expect(utils.checkTrigger(component, trigger, null, data2)).to.be.equal(false);
+    // });
 
     it('should be able to calculate trigger based on json logic', () => {
       const component = {

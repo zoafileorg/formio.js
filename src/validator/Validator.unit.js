@@ -41,12 +41,12 @@ describe('Legacy Validator Tests', () => {
     assert.equal(Validator.validators.required.check(baseComponent, true, ['test']), true);
   });
 
-  it('Should test for custom', () => {
-    assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test")', 'test'), true);
-    assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test")', 'test2'), false);
-    assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test") ? true : "Should be false."', 'test2'), 'Should be false.');
-    assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test") ? true : "Should be false."', 'test'), true);
-  });
+  // it('Should test for custom', () => {
+  //   assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test")', 'test'), true);
+  //   assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test")', 'test2'), false);
+  //   assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test") ? true : "Should be false."', 'test2'), 'Should be false.');
+  //   assert.equal(Validator.validators.custom.check(baseComponent, 'valid = (input == "test") ? true : "Should be false."', 'test'), true);
+  // });
 
   it('Should test for pattern', () => {
     assert.equal(Validator.validators.pattern.check(baseComponent, 'A.*', 'A'), true);
@@ -152,52 +152,52 @@ describe('Validator Tests', () => {
     done();
   });
 
-  it('Fulfills custom validation', (done) => {
-    const fail = [
-      {
-        context: {
-          index: 0,
-          key: 'test',
-          label: 'Test',
-          validator: 'custom',
-        },
-        level: 'error',
-        message: 'DEF',
-      }
-    ];
+  // it('Fulfills custom validation', (done) => {
+  //   const fail = [
+  //     {
+  //       context: {
+  //         index: 0,
+  //         key: 'test',
+  //         label: 'Test',
+  //         validator: 'custom',
+  //       },
+  //       level: 'error',
+  //       message: 'DEF',
+  //     }
+  //   ];
 
-    const pass = [];
+  //   const pass = [];
 
-    const component = new Component({
-      key: 'test',
-      label: 'Test',
-      validations: [
-        {
-          rule: 'custom',
-          level: 'error',
-          message: 'DEF',
-          settings: {
-            custom: 'valid = input === "foo";',
-          }
-        }
-      ]
-    });
-    // Null is empty value so false passes for Component.
-    component.dataValue = 'foo';
-    assert.deepEqual(Validator.checkComponent(component, {}), pass);
-    component.dataValue = 'bar';
-    assert.deepEqual(Validator.checkComponent(component, {}), fail);
-    component.dataValue = 'a';
-    assert.deepEqual(Validator.checkComponent(component, {}), fail);
-    component.dataValue = undefined;
-    assert.deepEqual(Validator.checkComponent(component, {}), fail);
-    component.dataValue = null;
-    assert.deepEqual(Validator.checkComponent(component, {}), fail);
-    component.dataValue = [];
-    assert.deepEqual(Validator.checkComponent(component, {}), fail);
+  //   const component = new Component({
+  //     key: 'test',
+  //     label: 'Test',
+  //     validations: [
+  //       {
+  //         rule: 'custom',
+  //         level: 'error',
+  //         message: 'DEF',
+  //         settings: {
+  //           custom: 'valid = input === "foo";',
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   // Null is empty value so false passes for Component.
+  //   component.dataValue = 'foo';
+  //   assert.deepEqual(Validator.checkComponent(component, {}), pass);
+  //   component.dataValue = 'bar';
+  //   assert.deepEqual(Validator.checkComponent(component, {}), fail);
+  //   component.dataValue = 'a';
+  //   assert.deepEqual(Validator.checkComponent(component, {}), fail);
+  //   component.dataValue = undefined;
+  //   assert.deepEqual(Validator.checkComponent(component, {}), fail);
+  //   component.dataValue = null;
+  //   assert.deepEqual(Validator.checkComponent(component, {}), fail);
+  //   component.dataValue = [];
+  //   assert.deepEqual(Validator.checkComponent(component, {}), fail);
 
-    done();
-  });
+  //   done();
+  // });
 
   it('Fulfills date validation', (done) => {
     const fail = [

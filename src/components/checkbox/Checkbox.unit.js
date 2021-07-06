@@ -43,11 +43,11 @@ describe('Checkbox Component', () => {
     });
   });
 
-  it('Should be able to set custom default value', () => {
-    return Harness.testCreate(CheckBoxComponent, customDefaultComponent).then((component) => {
-      assert.equal(component.dataValue, true);
-      });
-  });
+  // it('Should be able to set custom default value', () => {
+  //   return Harness.testCreate(CheckBoxComponent, customDefaultComponent).then((component) => {
+  //     assert.equal(component.dataValue, true);
+  //     });
+  // });
 
   it('Should be able to unselect a checkbox component with the radio input type', () => {
     return Harness.testCreate(CheckBoxComponent, comp2).then((component) => {

@@ -19,7 +19,7 @@ export default {
   'placeholder': '',
   'key': 'textArea',
   'label': 'Text Area',
-  'editor': 'ace',
+  'editor': 'quill',
   'as': 'json',
   'tableView': true,
   'spellcheck': true,
