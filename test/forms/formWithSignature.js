@@ -1,4 +1,4 @@
-const form = {
+  const form = {
   'type': 'form',
   'components': [{
     'title': 'Page 1',

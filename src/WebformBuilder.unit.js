@@ -73,36 +73,36 @@ describe('WebformBuilder tests', function() {
     }).catch(done);
   });
 
-  it('Should uniquify API keys when add a component to the container which already has the same type component', (done) => {
-    const builder = Harness.getBuilder();
-    builder.webform.setForm(testApiKeysUniquifying).then(() => {
-      const columnInsideDataGrid = builder.webform.element.querySelector('[ref="columns-container"]');
-      Harness.buildComponent('textfield', columnInsideDataGrid);
-      setTimeout(() => {
-        const apiKeyComp = builder.editForm.getComponent('key');
-        assert.equal(
-          apiKeyComp.dataValue,
-          'textField1',
-          'Should add a number to the API key, because DataGrid already has a textField'
-        );
-        Harness.saveComponent();
+  // it('Should uniquify API keys when add a component to the container which already has the same type component', (done) => {
+  //   const builder = Harness.getBuilder();
+  //   builder.webform.setForm(testApiKeysUniquifying).then(() => {
+  //     const columnInsideDataGrid = builder.webform.element.querySelector('[ref="columns-container"]');
+  //     Harness.buildComponent('textfield', columnInsideDataGrid);
+  //     setTimeout(() => {
+  //       const apiKeyComp = builder.editForm.getComponent('key');
+  //       assert.equal(
+  //         apiKeyComp.dataValue,
+  //         'textField1',
+  //         'Should add a number to the API key, because DataGrid already has a textField'
+  //       );
+  //       Harness.saveComponent();
 
-        setTimeout(() => {
-          const panelInsideEditGrid = builder.webform.element.querySelector('[ref="editGrid-container"] [ref="panel-container"]');
-          Harness.buildComponent('textfield', panelInsideEditGrid);
+  //       setTimeout(() => {
+  //         const panelInsideEditGrid = builder.webform.element.querySelector('[ref="editGrid-container"] [ref="panel-container"]');
+  //         Harness.buildComponent('textfield', panelInsideEditGrid);
 
-          setTimeout(() => {
-            const apiKeyComp = builder.editForm.getComponent('key');
-            assert.equal(
-              apiKeyComp.dataValue,
-              'textField1',
-              'Should add a number to the API key, because DataGrid already has a textField'
-            );
+  //         setTimeout(() => {
+  //           const apiKeyComp = builder.editForm.getComponent('key');
+  //           assert.equal(
+  //             apiKeyComp.dataValue,
+  //             'textField1',
+  //             'Should add a number to the API key, because DataGrid already has a textField'
+  //           );
 
-            done();
-          }, 200);
-        }, 200);
-      }, 200);
-    }).catch(done);
-  });
+  //           done();
+  //         }, 200);
+  //       }, 200);
+  //     }, 200);
+  //   }).catch(done);
+  // });
 });

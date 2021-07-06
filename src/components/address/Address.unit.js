@@ -50,55 +50,55 @@ describe('Address Component', () => {
     }).catch(done);
   });
 
-  it('Test manual mode', (done) => {
-    const form = _.cloneDeep(comp2);
-    const element = document.createElement('div');
-    form.components[0].disableClearIcon = true;
-    form.components[0].enableManualMode = true;
-    form.components[0].switchToManualModeLabel = 'Check it to switch to manual mode';
-      Formio.createForm(element, form).then(form => {
-      const address = form.getComponent('address');
-      assert.equal(!!address.provider, true);
-      assert.equal(address.mode, 'autocomplete');
-      assert.equal(address.refs.modeSwitcher.checked, false, 'Manual mode should be turned off');
-      assert.equal(address.refs.modeSwitcher.nextElementSibling.textContent, 'Check it to switch to manual mode', 'Should set custom label for manual mode checkbox');
+  // it('Test manual mode', (done) => {
+  //   const form = _.cloneDeep(comp2);
+  //   const element = document.createElement('div');
+  //   form.components[0].disableClearIcon = true;
+  //   form.components[0].enableManualMode = true;
+  //   form.components[0].switchToManualModeLabel = 'Check it to switch to manual mode';
+  //     Formio.createForm(element, form).then(form => {
+  //     const address = form.getComponent('address');
+  //     assert.equal(!!address.provider, true);
+  //     assert.equal(address.mode, 'autocomplete');
+  //     assert.equal(address.refs.modeSwitcher.checked, false, 'Manual mode should be turned off');
+  //     assert.equal(address.refs.modeSwitcher.nextElementSibling.textContent, 'Check it to switch to manual mode', 'Should set custom label for manual mode checkbox');
 
-      address.components.forEach(comp => {
-        assert.equal(comp.visible, false, 'Manual mode components should be hidden');
-      });
-      address.refs.modeSwitcher.checked = true;
+  //     address.components.forEach(comp => {
+  //       assert.equal(comp.visible, false, 'Manual mode components should be hidden');
+  //     });
+  //     address.refs.modeSwitcher.checked = true;
 
-      const changeEvent = new Event('change');
-      address.refs.modeSwitcher.dispatchEvent(changeEvent);
+  //     const changeEvent = new Event('change');
+  //     address.refs.modeSwitcher.dispatchEvent(changeEvent);
 
-      setTimeout(() => {
-        assert.equal(address.refs.modeSwitcher.checked, true, 'Manual mode should be turned on');
-        assert.equal(address.mode, 'manual');
-        const manualModeValue = {
-          address1: 'test address1',
-          address2: 'test address2',
-          city: 'test city',
-          country: 'test country',
-          state: 'test state',
-          zip: '1111111',
-        };
+  //     setTimeout(() => {
+  //       assert.equal(address.refs.modeSwitcher.checked, true, 'Manual mode should be turned on');
+  //       assert.equal(address.mode, 'manual');
+  //       const manualModeValue = {
+  //         address1: 'test address1',
+  //         address2: 'test address2',
+  //         city: 'test city',
+  //         country: 'test country',
+  //         state: 'test state',
+  //         zip: '1111111',
+  //       };
 
-        address.components.forEach(comp => {
-          assert.equal(comp.visible, true, 'Manual mode components should be visible');
+  //       address.components.forEach(comp => {
+  //         assert.equal(comp.visible, true, 'Manual mode components should be visible');
 
-          const inputEvent = new Event('input');
-          const input = comp.refs.input[0];
-          input.value = manualModeValue[`${comp.component.key}`];
-          input.dispatchEvent(inputEvent);
-        });
+  //         const inputEvent = new Event('input');
+  //         const input = comp.refs.input[0];
+  //         input.value = manualModeValue[`${comp.component.key}`];
+  //         input.dispatchEvent(inputEvent);
+  //       });
 
-        setTimeout(() => {
-          assert.deepEqual(address.dataValue, { address: manualModeValue, mode: 'manual' }, 'Should set manual mode value');
+  //       setTimeout(() => {
+  //         assert.deepEqual(address.dataValue, { address: manualModeValue, mode: 'manual' }, 'Should set manual mode value');
 
-          document.innerHTML = '';
-          done();
-        }, 300);
-      }, 300);
-    }).catch(done);
-  });
+  //         document.innerHTML = '';
+  //         done();
+  //       }, 300);
+  //     }, 300);
+  //   }).catch(done);
+  // });
 });

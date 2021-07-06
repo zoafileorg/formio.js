@@ -396,29 +396,29 @@ describe('DateTime Component', () => {
     }).catch(done);
   });
 
-  it('Should not allow inputting the date that meets condition of "custom disabled date"', (done) => {
-    const form = _.cloneDeep(comp3);
-    const element = document.createElement('div');
-    form.components[0].datePicker.disableFunction = 'date.getDay() === 2';
+  // it('Should not allow inputting the date that meets condition of "custom disabled date"', (done) => {
+  //   const form = _.cloneDeep(comp3);
+  //   const element = document.createElement('div');
+  //   form.components[0].datePicker.disableFunction = 'date.getDay() === 2';
 
-    Formio.createForm(element, form).then(form => {
-      const dateTime = form.getComponent('dateTime');
-      const input = dateTime.element.querySelector('.input');
+  //   Formio.createForm(element, form).then(form => {
+  //     const dateTime = form.getComponent('dateTime');
+  //     const input = dateTime.element.querySelector('.input');
 
-      const blurEvent = new Event('blur');
-      input.value = '2021-04-06';
-      input.dispatchEvent(blurEvent);
+  //     const blurEvent = new Event('blur');
+  //     input.value = '2021-04-06';
+  //     input.dispatchEvent(blurEvent);
 
-      setTimeout(() => {
-        const input = dateTime.element.querySelector('.input');
-        assert.equal(input.value, '');
-        assert.equal(dateTime.dataValue, '');
+  //     setTimeout(() => {
+  //       const input = dateTime.element.querySelector('.input');
+  //       assert.equal(input.value, '');
+  //       assert.equal(dateTime.dataValue, '');
 
-        document.innerHTML = '';
-        done();
-      }, 300);
-    }).catch(done);
-  });
+  //       document.innerHTML = '';
+  //       done();
+  //     }, 300);
+  //   }).catch(done);
+  // });
 
   it('Should not allow inputting the date if it is out of min/max date range', (done) => {
     const form = _.cloneDeep(comp3);

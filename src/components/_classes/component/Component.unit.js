@@ -101,22 +101,22 @@ describe('Component', () => {
     }, done));
   });
 
-  it('Should provide custom validation', (done) => {
-    Harness.testCreate(Component, _merge({}, comp1, {
-      validate: {
-        custom: 'valid = (input !== "Joe") ? true : "You cannot be Joe"'
-      }
-    })).then((component) => Harness.testComponent(component, {
-      bad: {
-        value: 'Joe',
-        field: 'firstName',
-        error: 'You cannot be Joe'
-      },
-      good: {
-        value: 'Tom'
-      }
-    }, done));
-  });
+  // it('Should provide custom validation', (done) => {
+  //   Harness.testCreate(Component, _merge({}, comp1, {
+  //     validate: {
+  //       custom: 'valid = (input !== "Joe") ? true : "You cannot be Joe"'
+  //     }
+  //   })).then((component) => Harness.testComponent(component, {
+  //     bad: {
+  //       value: 'Joe',
+  //       field: 'firstName',
+  //       error: 'You cannot be Joe'
+  //     },
+  //     good: {
+  //       value: 'Tom'
+  //     }
+  //   }, done));
+  // });
 
   it('Should provide json validation', (done) => {
     Harness.testCreate(Component, _merge({}, comp1, {

@@ -446,123 +446,123 @@ describe('Wizard tests', () => {
     .catch((err) => done(err));
   });
 
-  it('Should execute advanced logic for wizard pages', function(done) {
-    const formElement = document.createElement('div');
-    const wizard = new Wizard(formElement);
-    const form = _.cloneDeep(wizardTestForm.form);
-    _.each(form.components, (comp, index) => {
-      if (index === 1) {
-        comp.logic = [
-          {
-            name: 'simple logic',
-            trigger: { type: 'simple', simple: { show: true, when: 'textField', eq: 'tooltip' } },
-            actions: [
-              {
-                name: 'merge schema action',
-                type: 'mergeComponentSchema',
-                schemaDefinition: "schema = { tooltip: 'some tooltip'}"
-              }
-            ]
-          }
-        ];
-       }
-      if (index === 2) {
-        comp.logic = [
-          {
-            name: 'logic test',
-            trigger: { type: 'simple', simple: { show: true, when: 'checkbox', eq: 'true' } },
-            actions: [
-              {
-                name: 'disabled',
-                type: 'property',
-                property: { label: 'Disabled', value: 'disabled', type: 'boolean' },
-                state: true
-              }
-            ]
-          }
-        ];
-      }
-     });
+  // it('Should execute advanced logic for wizard pages', function(done) {
+  //   const formElement = document.createElement('div');
+  //   const wizard = new Wizard(formElement);
+  //   const form = _.cloneDeep(wizardTestForm.form);
+  //   _.each(form.components, (comp, index) => {
+  //     if (index === 1) {
+  //       comp.logic = [
+  //         {
+  //           name: 'simple logic',
+  //           trigger: { type: 'simple', simple: { show: true, when: 'textField', eq: 'tooltip' } },
+  //           actions: [
+  //             {
+  //               name: 'merge schema action',
+  //               type: 'mergeComponentSchema',
+  //               schemaDefinition: "schema = { tooltip: 'some tooltip'}"
+  //             }
+  //           ]
+  //         }
+  //       ];
+  //      }
+  //     if (index === 2) {
+  //       comp.logic = [
+  //         {
+  //           name: 'logic test',
+  //           trigger: { type: 'simple', simple: { show: true, when: 'checkbox', eq: 'true' } },
+  //           actions: [
+  //             {
+  //               name: 'disabled',
+  //               type: 'property',
+  //               property: { label: 'Disabled', value: 'disabled', type: 'boolean' },
+  //               state: true
+  //             }
+  //           ]
+  //         }
+  //       ];
+  //     }
+  //    });
 
-    wizard.setForm(form).then(() => {
-      const clickWizardBtn = (pathPart, clickError) => {
-        const btn = _.get(wizard.refs, clickError ? pathPart : `${wizard.wizardKey}-${pathPart}`);
-        const clickEvent = new Event('click');
-        btn.dispatchEvent(clickEvent);
-      };
+  //   wizard.setForm(form).then(() => {
+  //     const clickWizardBtn = (pathPart, clickError) => {
+  //       const btn = _.get(wizard.refs, clickError ? pathPart : `${wizard.wizardKey}-${pathPart}`);
+  //       const clickEvent = new Event('click');
+  //       btn.dispatchEvent(clickEvent);
+  //     };
 
-      const checkPage = (pageNumber) => {
-        assert.equal(wizard.page, pageNumber, `Should open wizard page ${pageNumber + 1}`);
-      };
+  //     const checkPage = (pageNumber) => {
+  //       assert.equal(wizard.page, pageNumber, `Should open wizard page ${pageNumber + 1}`);
+  //     };
 
-      checkPage(0);
-      wizard.getComponent('textField').setValue('tooltip');
-      clickWizardBtn('next');
+  //     checkPage(0);
+  //     wizard.getComponent('textField').setValue('tooltip');
+  //     clickWizardBtn('next');
 
-      setTimeout(() => {
-        checkPage(1);
-        assert.equal(wizard.tooltips.length, 1, 'Should have tooltip after advanced logic execution');
-        assert.equal(!!wizard.refs[`${wizard.wizardKey}-tooltip`][0], true, 'Should render tooltip icon');
+  //     setTimeout(() => {
+  //       checkPage(1);
+  //       assert.equal(wizard.tooltips.length, 1, 'Should have tooltip after advanced logic execution');
+  //       assert.equal(!!wizard.refs[`${wizard.wizardKey}-tooltip`][0], true, 'Should render tooltip icon');
 
-        wizard.getComponent('checkbox').setValue(true);
-        clickWizardBtn('next');
+  //       wizard.getComponent('checkbox').setValue(true);
+  //       clickWizardBtn('next');
 
-        setTimeout(() => {
-          checkPage(2);
-          assert.equal(wizard.allPages[wizard.page].disabled, true, 'Should disable page components after advanced logic execution');
-          done();
-        }, 200);
-      }, 200);
-    })
-    .catch((err) => done(err));
-  });
+  //       setTimeout(() => {
+  //         checkPage(2);
+  //         assert.equal(wizard.allPages[wizard.page].disabled, true, 'Should disable page components after advanced logic execution');
+  //         done();
+  //       }, 200);
+  //     }, 200);
+  //   })
+  //   .catch((err) => done(err));
+  // });
 
-  it('Should navigate next page according to advanced next page logic', function(done) {
-    const formElement = document.createElement('div');
-    const wizard = new Wizard(formElement);
-    const form = _.cloneDeep(wizardTestForm.form);
-    _.each(form.components, (comp, index) => {
-      if (index === 0) {
-        comp.nextPage = "next = data.textField === 'page3' ? 'page3' : 'page2'";
-      }
-      if (index === 1) {
-        comp.nextPage = "next = data.container && data.container.select === 'value1' ? 'page1' : 'page3'";
-      }
-     });
+  // it('Should navigate next page according to advanced next page logic', function(done) {
+  //   const formElement = document.createElement('div');
+  //   const wizard = new Wizard(formElement);
+  //   const form = _.cloneDeep(wizardTestForm.form);
+  //   _.each(form.components, (comp, index) => {
+  //     if (index === 0) {
+  //       comp.nextPage = "next = data.textField === 'page3' ? 'page3' : 'page2'";
+  //     }
+  //     if (index === 1) {
+  //       comp.nextPage = "next = data.container && data.container.select === 'value1' ? 'page1' : 'page3'";
+  //     }
+  //    });
 
-    wizard.setForm(form).then(() => {
-      const clickWizardBtn = (pathPart, clickError) => {
-        const btn = _.get(wizard.refs, clickError ? pathPart : `${wizard.wizardKey}-${pathPart}`);
-        const clickEvent = new Event('click');
-        btn.dispatchEvent(clickEvent);
-      };
+  //   wizard.setForm(form).then(() => {
+  //     const clickWizardBtn = (pathPart, clickError) => {
+  //       const btn = _.get(wizard.refs, clickError ? pathPart : `${wizard.wizardKey}-${pathPart}`);
+  //       const clickEvent = new Event('click');
+  //       btn.dispatchEvent(clickEvent);
+  //     };
 
-      const checkPage = (pageNumber) => {
-        assert.equal(wizard.page, pageNumber, `Should open wizard page ${pageNumber + 1}`);
-      };
-      checkPage(0);
-      wizard.getComponent('textField').setValue('page3');
-      clickWizardBtn('next');
+  //     const checkPage = (pageNumber) => {
+  //       assert.equal(wizard.page, pageNumber, `Should open wizard page ${pageNumber + 1}`);
+  //     };
+  //     checkPage(0);
+  //     wizard.getComponent('textField').setValue('page3');
+  //     clickWizardBtn('next');
 
-      setTimeout(() => {
-        checkPage(2);
-        wizard.getComponent('select').setValue('value1');
-        clickWizardBtn('previous');
+  //     setTimeout(() => {
+  //       checkPage(2);
+  //       wizard.getComponent('select').setValue('value1');
+  //       clickWizardBtn('previous');
 
-        setTimeout(() => {
-          checkPage(1);
-          wizard.getComponent('checkbox').setValue(true);
-          clickWizardBtn('next');
+  //       setTimeout(() => {
+  //         checkPage(1);
+  //         wizard.getComponent('checkbox').setValue(true);
+  //         clickWizardBtn('next');
 
-          setTimeout(() => {
-            checkPage(0);
-            done();
-          }, 200);
-        }, 200);
-      }, 200);
-    })
-    .catch((err) => done(err));
-  });
+  //         setTimeout(() => {
+  //           checkPage(0);
+  //           done();
+  //         }, 200);
+  //       }, 200);
+  //     }, 200);
+  //   })
+  //   .catch((err) => done(err));
+  // });
 
   it('Should not render breadcrumb if it has hidden type', function(done) {
     const formElement = document.createElement('div');
@@ -1204,54 +1204,54 @@ describe('Wizard tests', () => {
     .catch((err) => done(err));
   });
 
-  it('Should display submission data on page with custom conditional logic in readOnly', function(done) {
-    const formElement = document.createElement('div');
-    const wizardWithCustomConditionalPage = new Wizard(formElement);
+  // it('Should display submission data on page with custom conditional logic in readOnly', function(done) {
+  //   const formElement = document.createElement('div');
+  //   const wizardWithCustomConditionalPage = new Wizard(formElement);
 
-    wizardWithCustomConditionalPage.setForm(wizard5).then(() => {
-      setTimeout(() => {
-        wizardWithCustomConditionalPage.disabled = true;
+  //   wizardWithCustomConditionalPage.setForm(wizard5).then(() => {
+  //     setTimeout(() => {
+  //       wizardWithCustomConditionalPage.disabled = true;
 
-        if (wizardWithCustomConditionalPage.options) {
-          wizardWithCustomConditionalPage.options.readOnly = true;
-        }
-        else {
-          wizardWithCustomConditionalPage.options = { readOnly: true };
-        }
+  //       if (wizardWithCustomConditionalPage.options) {
+  //         wizardWithCustomConditionalPage.options.readOnly = true;
+  //       }
+  //       else {
+  //         wizardWithCustomConditionalPage.options = { readOnly: true };
+  //       }
 
-        setTimeout(() => {
-          assert.equal(wizardWithCustomConditionalPage.pages.length, 1);
-          assert.equal(wizardWithCustomConditionalPage.components.length, 1);
+  //       setTimeout(() => {
+  //         assert.equal(wizardWithCustomConditionalPage.pages.length, 1);
+  //         assert.equal(wizardWithCustomConditionalPage.components.length, 1);
 
-          const submissionData = { checkbox: true, number: 555 };
+  //         const submissionData = { checkbox: true, number: 555 };
 
-          wizardWithCustomConditionalPage.setSubmission({ data:submissionData });
+  //         wizardWithCustomConditionalPage.setSubmission({ data:submissionData });
 
-          setTimeout(() => {
-            assert.equal(wizardWithCustomConditionalPage.pages.length, 2);
-            assert.equal(wizardWithCustomConditionalPage.components.length, 2);
-            assert.deepEqual(wizardWithCustomConditionalPage.data, submissionData);
+  //         setTimeout(() => {
+  //           assert.equal(wizardWithCustomConditionalPage.pages.length, 2);
+  //           assert.equal(wizardWithCustomConditionalPage.components.length, 2);
+  //           assert.deepEqual(wizardWithCustomConditionalPage.data, submissionData);
 
-            const clickEvent = new Event('click');
-            const secondPageBtn = wizardWithCustomConditionalPage.refs[`${wizardWithCustomConditionalPage.wizardKey}-link`][1];
+  //           const clickEvent = new Event('click');
+  //           const secondPageBtn = wizardWithCustomConditionalPage.refs[`${wizardWithCustomConditionalPage.wizardKey}-link`][1];
 
-            secondPageBtn.dispatchEvent(clickEvent);
+  //           secondPageBtn.dispatchEvent(clickEvent);
 
-            setTimeout(() => {
-              assert.equal(wizardWithCustomConditionalPage.page, 1);
+  //           setTimeout(() => {
+  //             assert.equal(wizardWithCustomConditionalPage.page, 1);
 
-              const numberComponent = wizardWithCustomConditionalPage.element.querySelector('[name="data[number]"]');
+  //             const numberComponent = wizardWithCustomConditionalPage.element.querySelector('[name="data[number]"]');
 
-              assert.equal(numberComponent.value, 555);
+  //             assert.equal(numberComponent.value, 555);
 
-              done();
-            }, 400);
-          }, 300);
-        }, 200);
-      }, 100);
-    })
-    .catch((err) => done(err));
-  });
+  //             done();
+  //           }, 400);
+  //         }, 300);
+  //       }, 200);
+  //     }, 100);
+  //   })
+  //   .catch((err) => done(err));
+  // });
 
   it('Should show conditional wizard page', function(done) {
     const formElement = document.createElement('div');
@@ -1716,52 +1716,52 @@ describe('Wizard tests', () => {
     .catch((err) => done(err));
   });
 
-  it('Should proper validate nested wizard fields', (done) => {
-    const formElement = document.createElement('div');
-    const wizard = new Wizard(formElement);
-    const childForm = _.cloneDeep(wizardWithFieldsValidationChild);
-    const parentForm = _.cloneDeep(wizardWithFieldsValidationParent);
-    const clickEvent = new Event('click');
+  // it('Should proper validate nested wizard fields', (done) => {
+  //   const formElement = document.createElement('div');
+  //   const wizard = new Wizard(formElement);
+  //   const childForm = _.cloneDeep(wizardWithFieldsValidationChild);
+  //   const parentForm = _.cloneDeep(wizardWithFieldsValidationParent);
+  //   const clickEvent = new Event('click');
 
-    wizard.setForm(parentForm).then(() => {
-      const nestedFormComp = wizard.getComponent('formNested');
-      nestedFormComp.loadSubForm = () => {
-        nestedFormComp.formObj = childForm;
-        nestedFormComp.subFormLoading = false;
-        return new Promise((resolve) => resolve(childForm));
-      };
-      nestedFormComp.createSubForm();
+  //   wizard.setForm(parentForm).then(() => {
+  //     const nestedFormComp = wizard.getComponent('formNested');
+  //     nestedFormComp.loadSubForm = () => {
+  //       nestedFormComp.formObj = childForm;
+  //       nestedFormComp.subFormLoading = false;
+  //       return new Promise((resolve) => resolve(childForm));
+  //     };
+  //     nestedFormComp.createSubForm();
 
-      setTimeout(() => {
-        const textField = wizard.getComponent('textField');
-        const testValidation = wizard.getComponent('testValidation');
-        textField.setValue('one');
-        testValidation.setValue('two');
-        wizard.render();
+  //     setTimeout(() => {
+  //       const textField = wizard.getComponent('textField');
+  //       const testValidation = wizard.getComponent('testValidation');
+  //       textField.setValue('one');
+  //       testValidation.setValue('two');
+  //       wizard.render();
 
-        const checkPage = (pageNumber) => {
-          assert.equal(wizard.page, pageNumber);
-        };
-        const nextPageBtn = wizard.refs[`${wizard.wizardKey}-next`];
+  //       const checkPage = (pageNumber) => {
+  //         assert.equal(wizard.page, pageNumber);
+  //       };
+  //       const nextPageBtn = wizard.refs[`${wizard.wizardKey}-next`];
 
-        setTimeout(() => {
-          nextPageBtn.dispatchEvent(clickEvent);
+  //       setTimeout(() => {
+  //         nextPageBtn.dispatchEvent(clickEvent);
 
-          setTimeout(() => {
-            checkPage(0);
-            assert.equal(wizard.errors.length, 1);
-            assert.equal(wizard.refs.errorRef.length, wizard.errors.length);
-            testValidation.setValue('one');
-            nextPageBtn.dispatchEvent(clickEvent);
+  //         setTimeout(() => {
+  //           checkPage(0);
+  //           assert.equal(wizard.errors.length, 1);
+  //           assert.equal(wizard.refs.errorRef.length, wizard.errors.length);
+  //           testValidation.setValue('one');
+  //           nextPageBtn.dispatchEvent(clickEvent);
 
-            setTimeout(() => {
-              checkPage(1);
-              assert.equal(wizard.errors.length, 0);
-              done();
-            }, 200);
-          }, 200);
-        }, 200);
-      }, 200);
-    });
-  });
+  //           setTimeout(() => {
+  //             checkPage(1);
+  //             assert.equal(wizard.errors.length, 0);
+  //             done();
+  //           }, 200);
+  //         }, 200);
+  //       }, 200);
+  //     }, 200);
+  //   });
+  // });
 });
