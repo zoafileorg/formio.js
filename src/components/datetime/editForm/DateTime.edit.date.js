@@ -83,18 +83,18 @@ export default [
       return !data.enableMaxDateInput;
     },
   },
-  {
-    type: 'tags',
-    input: true,
-    key: 'datePicker.disable',
-    label: 'Disable specific dates or dates by range',
-    placeholder: '(yyyy-MM-dd) or (yyyy-MM-dd - yyyy-MM-dd)',
-    tooltip: 'Add dates that you want to blacklist. For example: \n \n 2025-02-21',
-    validate: {
-      custom: 'if (_.isEmpty(input)) {\n  return true;\n}\nconst dates = _.isArray(input) ?\ninput : input.split(component.delimeter);\nconst isValid = _.every(dates, (data) => \n  !!data.match(/\\d{4}-\\d{2}-\\d{2}/g));\nvalid = isValid || \'Invalid date\';'
-    },
-    weight: 21
-  },
+  // {
+  //   type: 'tags',
+  //   input: true,
+  //   key: 'datePicker.disable',
+  //   label: 'Disable specific dates or dates by range',
+  //   placeholder: '(yyyy-MM-dd) or (yyyy-MM-dd - yyyy-MM-dd)',
+  //   tooltip: 'Add dates that you want to blacklist. For example: \n \n 2025-02-21',
+  //   validate: {
+  //     custom: 'if (_.isEmpty(input)) {\n  return true;\n}\nconst dates = _.isArray(input) ?\ninput : input.split(component.delimeter);\nconst isValid = _.every(dates, (data) => \n  !!data.match(/\\d{4}-\\d{2}-\\d{2}/g));\nvalid = isValid || \'Invalid date\';'
+  //   },
+  //   weight: 21
+  // },
   // {
   //   type: 'panel',
   //   title: 'Custom Disabled Dates',
